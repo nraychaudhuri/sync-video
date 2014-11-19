@@ -1,0 +1,20 @@
+<style>
+
+</style>
+
+@main("Sync video") {
+    <div id="registration" class="active">
+        <p>Username: <input id="name" /> <button id="join">Join Room</button></p>
+    </div>
+
+    <div id="room" class="inactive">
+        User: <span id="username"></span>
+        <button id="leave">Leave Room</button>
+        <p>Users: <span id="userCount"></span></p>
+        <p>Controller: <span id="controller">---</span> <button id="takeControl">Take Control</button></p>
+        <video controls>
+            <source src="assets/popeye.mp4" type="video/mp4">
+        </video>
+        <p><button id="like">I like the scene</button></p>
+    </div>
+}
