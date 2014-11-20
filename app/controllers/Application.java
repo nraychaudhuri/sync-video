@@ -1,5 +1,7 @@
 package controllers;
 
+import actors.UserActor;
+import com.fasterxml.jackson.databind.JsonNode;
 import play.*;
 import play.mvc.*;
 
@@ -10,7 +12,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class Application extends Controller {
 
-    private static List<WebSocket.Out<String>> connections = new CopyOnWriteArrayList<>();
+    //private static List<WebSocket.Out<String>> connections = new CopyOnWriteArrayList<>();
 
     public static Result index() {
         return ok(index.render("Your new application is ready."));
@@ -21,17 +23,13 @@ public class Application extends Controller {
     }
 
 
-    public static WebSocket<String> join(String userid) {
-        return WebSocket.whenReady((in, out) -> {
-          connections.add(out);
-          in.onMessage(Application::notifyOthers);
-          in.onClose(() -> connections.remove(out));
-        });
+    public static WebSocket<JsonNode> join(String userid) {
+        return WebSocket.withActor(out -> UserActor.props(userid, out));
     }
 
-    public static void notifyOthers(String msg) {
-      connections.forEach(out -> out.write(msg));
-
-    }
+//    public static void notifyOthers(String msg) {
+//      connections.forEach(out -> out.write(msg));
+//
+//    }
 
 }
